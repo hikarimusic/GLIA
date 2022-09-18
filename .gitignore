@@ -132,5 +132,4 @@ dmypy.json
 
 
 # Dataset
-*data/
-*.pth
+data/cifar10

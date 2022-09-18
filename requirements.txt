@@ -3,6 +3,6 @@ torchvision
 torchaudio
 
 pandas
-pypng
 matplotlib
 seaborn
+tqdm
