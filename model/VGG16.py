@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from torchvision import transforms
 
 class Downsample1(nn.Module):
     def __init__(self):
@@ -166,3 +167,19 @@ class Model(nn.Module):
         x = self.downsample5(x)
         x = self.classifier(x)
         return x
+
+
+class Utils():
+    def __init__(self):
+        super().__init__()
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ])
+        self.target_transform = None
+        self.loss = nn.CrossEntropyLoss()
+    
+    def result(self, x):
+        return torch.argsort(x, dim=1)
