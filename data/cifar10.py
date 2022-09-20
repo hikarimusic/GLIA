@@ -4,6 +4,8 @@ from PIL import Image
 import pandas as pd
 from tqdm import tqdm
 import shutil
+from torch.utils.data import Dataset
+
 
 def download():
     if not os.path.exists(os.path.join(os.getcwd(), "cifar-10-python.tar.gz")):
@@ -57,6 +59,20 @@ def download():
     
     os.remove(os.path.join(os.getcwd(), "cifar-10-python.tar.gz"))
     shutil.rmtree(os.path.join(os.getcwd(), "cifar-10-batches-py"))
+
+
+class TrainDataset(Dataset):
+    def __init__(self):
+        self.table = pd.read_csv(os.path.join(os.getcwd(), "cifar10", "train.csv"))
+
+    def __len__(self):
+        return len(self.table)
+
+    def __getitem__(self, idx):
+        img_path = os.path.join(os.getcwd(), "cifar10", "train", self.table["image"][idx])
+        img = Image.open(img_path)
+        lbl = self.table["label"][idx]
+        return img, lbl
 
 
 if __name__ == '__main__':
