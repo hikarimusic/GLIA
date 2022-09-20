@@ -5,6 +5,7 @@ import pandas as pd
 from tqdm import tqdm
 import shutil
 from torch.utils.data import Dataset
+from torchvision import transforms
 
 
 def download():
@@ -63,20 +64,19 @@ def download():
 
 class TrainDataset(Dataset):
     def __init__(self):
-        self.table = pd.read_csv(os.path.join(os.getcwd(), "cifar10", "train.csv"))
+        self.table = pd.read_csv(os.path.join(os.getcwd(), "data", "cifar10", "train.csv"))
+        self.to_tensor = transforms.ToTensor()
 
     def __len__(self):
         return len(self.table)
 
     def __getitem__(self, idx):
-        img_path = os.path.join(os.getcwd(), "cifar10", "train", self.table["image"][idx])
+        img_path = os.path.join(os.getcwd(), "data", "cifar10", "train", self.table["image"][idx])
         img = Image.open(img_path)
+        img = self.to_tensor(img)
         lbl = self.table["label"][idx]
         return img, lbl
 
 
 if __name__ == '__main__':
     download()
-
-
-
