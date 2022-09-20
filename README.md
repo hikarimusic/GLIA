@@ -1,7 +1,3 @@
 # GLIA
-Library of AI Model Implementations in Pytorch
-
-
-
-sudo apt install unzip
+Code Library of Neural Network Implementations in Pytorch 
 
