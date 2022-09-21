@@ -1,4 +1,4 @@
-from data.cifar10 import TrainDataset
+from data.cifar10 import TrainDataset, TestDataset
 from model.vgg16 import Model, Utils
 
 import os
@@ -34,7 +34,6 @@ def train(data, model, utils):
             loss, current = loss.item(), batch * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
-            torch.save(model.state_dict(), SAVE_WEIGHT)
 
 def test(data, model, utils):
     print("Testing")
@@ -57,8 +56,10 @@ def test(data, model, utils):
 
 
 if __name__ == '__main__':
-    dataset = TrainDataset()
-    data = DataLoader(dataset, batch_size=BATCH_SIZE)
+    train_dataset = TrainDataset()
+    test_dataset = TestDataset()
+    train_data = DataLoader(train_dataset, batch_size=BATCH_SIZE)
+    test_data = DataLoader(test_dataset, batch_size=BATCH_SIZE)
     model = Model()
     utils = Utils()
     if LOAD_WEIGHT:
@@ -66,7 +67,7 @@ if __name__ == '__main__':
 
     for t in range(EPOCHS):
         print(f"\nEpoch {t+1}\n-------------------------------")
-        train(data, model, utils)
-        eval(data, model, utils)
+        train(train_data, model, utils)
+        test(test_data, model, utils)
         if SAVE_WEIGHT:
             torch.save(model.state_dict(), SAVE_WEIGHT)

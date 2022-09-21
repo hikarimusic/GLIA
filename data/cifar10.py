@@ -38,7 +38,7 @@ def download():
 
     test = pd.DataFrame(columns=["image", "label"])
     with open(os.path.join(os.getcwd(), "cifar-10-batches-py", "test_batch"), 'rb') as fo:
-        print(f"Converting {batch}")
+        print(f"Converting test_batch")
         cifar = pickle.load(fo, encoding='bytes')
         for id in tqdm(range(len(cifar[b'data']))):
             arr = cifar[b'data'][id].reshape((3, 32, 32)).transpose(1, 2, 0)
@@ -72,6 +72,22 @@ class TrainDataset(Dataset):
 
     def __getitem__(self, idx):
         img_path = os.path.join(os.getcwd(), "data", "cifar10", "train", self.table["image"][idx])
+        img = Image.open(img_path)
+        img = self.to_tensor(img)
+        lbl = self.table["label"][idx]
+        return img, lbl
+
+
+class TestDataset(Dataset):
+    def __init__(self):
+        self.table = pd.read_csv(os.path.join(os.getcwd(), "data", "cifar10", "test.csv"))
+        self.to_tensor = transforms.ToTensor()
+
+    def __len__(self):
+        return len(self.table)
+
+    def __getitem__(self, idx):
+        img_path = os.path.join(os.getcwd(), "data", "cifar10", "test", self.table["image"][idx])
         img = Image.open(img_path)
         img = self.to_tensor(img)
         lbl = self.table["label"][idx]
