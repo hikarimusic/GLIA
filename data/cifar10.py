@@ -62,36 +62,44 @@ def download():
     shutil.rmtree(os.path.join(os.getcwd(), "cifar-10-batches-py"))
 
 
-class TrainDataset(Dataset):
-    def __init__(self):
-        self.table = pd.read_csv(os.path.join(os.getcwd(), "data", "cifar10", "train.csv"))
-        self.to_tensor = transforms.ToTensor()
+class CustomDataset(Dataset):
+    def __init__(self, table_pth, img_dir, transform=None, target_transform=None):
+        self.table = pd.read_csv(table_pth)
+        self.img_dir = img_dir
+        self.transform = transform
+        self.target_transform = target_transform
 
     def __len__(self):
         return len(self.table)
 
     def __getitem__(self, idx):
-        img_path = os.path.join(os.getcwd(), "data", "cifar10", "train", self.table["image"][idx])
+        img_path = os.path.join(self.img_dir, self.table["image"][idx])
         img = Image.open(img_path)
-        img = self.to_tensor(img)
+        img = self.transform(img)
+        img = img.float()
         lbl = self.table["label"][idx]
         return img, lbl
 
 
-class TestDataset(Dataset):
+class Data():
     def __init__(self):
-        self.table = pd.read_csv(os.path.join(os.getcwd(), "data", "cifar10", "test.csv"))
-        self.to_tensor = transforms.ToTensor()
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.247, 0.243, 0.261])
+        ])
+        self.target_transform = None
 
-    def __len__(self):
-        return len(self.table)
-
-    def __getitem__(self, idx):
-        img_path = os.path.join(os.getcwd(), "data", "cifar10", "test", self.table["image"][idx])
-        img = Image.open(img_path)
-        img = self.to_tensor(img)
-        lbl = self.table["label"][idx]
-        return img, lbl
+        self.train = CustomDataset(
+            os.path.join(os.getcwd(), "data", "cifar10", "train.csv"),
+            os.path.join(os.getcwd(), "data", "cifar10", "train"),
+            self.transform,
+            self.target_transform)
+        self.test = CustomDataset(
+            os.path.join(os.getcwd(), "data", "cifar10", "test.csv"),
+            os.path.join(os.getcwd(), "data", "cifar10", "test"),
+            self.transform,
+            self.target_transform)
+        self.classes = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
 
 
 if __name__ == '__main__':

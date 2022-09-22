@@ -43,14 +43,28 @@ Remember to activate this virtual environment every time you run your project.
 source env_glia/bin/activate
 ```
 
+# Clone the repository
+
+```sh
+git clone https://github.com/hikarimusic/GLIA.git
+```
+
 ```sh
 cd GLIA
 ```
 
-# Install requirements
-
-You can install the required python packages by pip.
+Install the required python packages by pip.
 
 ```sh
 pip install -r requirements.txt
 ```
+
+# Check 
+
+You can check whether GPU acceleration is available after setting up the environment.
+
+```sh
+>>> import torch
+>>> torch.cuda.is_available()
+True
+``

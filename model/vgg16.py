@@ -173,12 +173,26 @@ class Utils():
     def __init__(self):
         super().__init__()
         self.transform = nn.Sequential(
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            transforms.Resize(224),
         )
         self.target_transform = None
         self.loss = nn.CrossEntropyLoss()
     
     def result(self, x):
         return torch.argmax(x, dim=1)
+
+
+'''
+Training Configuration
+----------------------
+
+batch size: 256
+learning rate: 1e-2 -> 1e-3 -> 1e-4 -> 1e-5
+momentum: 0.9
+weight decay: 5e-4
+data augmentation:
+    RandomResizedCrop
+    RandomHorizontalFlip
+    ColorJitter
+
+'''
