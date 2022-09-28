@@ -183,9 +183,10 @@ class Utils():
 
 
 '''
-Training Configuration
-----------------------
+Training Configuration in the paper
+-----------------------------------
 
+optimizer: SGD
 batch size: 256
 learning rate: 1e-2 -> 1e-3 -> 1e-4 -> 1e-5
 momentum: 0.9

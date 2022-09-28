@@ -131,6 +131,7 @@ dmypy.json
 
 # Dataset
 data/cifar10
+data/wmt2014_english_german
 
 # Weight
 *.pth

@@ -76,7 +76,6 @@ class CustomDataset(Dataset):
         img_path = os.path.join(self.img_dir, self.table["image"][idx])
         img = Image.open(img_path)
         img = self.transform(img)
-        img = img.float()
         lbl = self.table["label"][idx]
         return img, lbl
 

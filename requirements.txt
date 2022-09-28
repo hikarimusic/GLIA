@@ -6,3 +6,5 @@ pandas
 matplotlib
 seaborn
 tqdm
+torch-summary
+spacy
