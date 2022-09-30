@@ -1,7 +1,6 @@
 import torch
 from torch import nn
 
-
 class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, downsample=False):
         super().__init__()
@@ -37,7 +36,6 @@ class BasicBlock(nn.Module):
         x += shortcut
         x = self.relu2(x)
         return x
-
 
 class Bottleneck(nn.Module):
     def __init__(self, in_channels, out_channels, downsample=False):
@@ -87,7 +85,6 @@ class Bottleneck(nn.Module):
         x = self.relu3(x)
         return x
 
-
 class ResNet18(nn.Module):
     def __init__(self):
         super().__init__()
@@ -127,7 +124,6 @@ class ResNet18(nn.Module):
         x = self.layer5(x)
         x = self.layer6(x)
         return x
-
 
 class ResNet34(nn.Module):
     def __init__(self):
@@ -177,7 +173,6 @@ class ResNet34(nn.Module):
         x = self.layer6(x)
         return x
 
-
 class ResNet50(nn.Module):
     def __init__(self):
         super().__init__()
@@ -225,7 +220,6 @@ class ResNet50(nn.Module):
         x = self.layer5(x)
         x = self.layer6(x)
         return x
-
 
 class ResNet101(nn.Module):
     def __init__(self):
@@ -291,7 +285,6 @@ class ResNet101(nn.Module):
         x = self.layer5(x)
         x = self.layer6(x)
         return x
-
 
 class ResNet152(nn.Module):
     def __init__(self):
@@ -374,3 +367,4 @@ class ResNet152(nn.Module):
         x = self.layer5(x)
         x = self.layer6(x)
         return x
+        
